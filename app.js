@@ -7,7 +7,11 @@ function isAuthorized(req) {
   return true;
 }
 
-var apiport = (process.env.PORT + 1 || 3000);
+var xport = (process.env.PORT + 1 || 3000);
+var port  = (process.env.PORT || 8080);
+
+console.log('-- port:  ' + port);
+console.log('-- prox:  ' + xport);
 
 server.use(middlewares)
 server.use(function (req, res, next) {
@@ -18,8 +22,8 @@ server.use(function (req, res, next) {
  }
 })
 server.use(router)
-server.listen(apiport, function () {
-  console.log('JSON Server is running on port ' + apiport + '!');
+server.listen(xport, function () {
+  console.log('JSON Server is running on port ' + xport + '!');
 });
 
 var express = require('express');
@@ -28,7 +32,6 @@ var htproxy = require('http-proxy');
 
 var prox = htproxy.createProxyServer();
 var app  = express();
-var port = (process.env.PORT || 8080);
 
 // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
 // a load balancer (e.g. Heroku). See further comments below
@@ -39,7 +42,7 @@ app.use(express.static('public'));
 // passes all api requests through the proxy
 app.all('/notes*', function (req, res, next) {
   prox.web(req, res, {
-    target: 'http://localhost:' + apiport
+    target: 'http://localhost:' + xport
   });
 });
 
