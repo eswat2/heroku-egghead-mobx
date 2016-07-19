@@ -7,6 +7,8 @@ function isAuthorized(req) {
   return true;
 }
 
+var apiport = (process.env.PORT + 100 || 3000);
+
 server.use(middlewares)
 server.use(function (req, res, next) {
  if (isAuthorized(req)) { // add your authorization logic here
@@ -16,21 +18,30 @@ server.use(function (req, res, next) {
  }
 })
 server.use(router)
-server.listen(3000, function () {
+server.listen(apiport, function () {
   console.log('JSON Server is running on port 3000!');
 });
 
 var express = require('express');
 var enforce = require('express-sslify');
+var htproxy = require('http-proxy');
 
+var prox = htproxy.createProxyServer();
 var app  = express();
 var port = (process.env.PORT || 8080);
 
 // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
 // a load balancer (e.g. Heroku). See further comments below
-app.use(enforce.HTTPS({ trustProtoHeader: true }));
+// app.use(enforce.HTTPS({ trustProtoHeader: true }));
 
 app.use(express.static('public'));
+
+// passes all api requests through the proxy
+app.all('/notes*', function (req, res, next) {
+  prox.web(req, res, {
+    target: 'http://localhost:' + apiport
+  });
+});
 
 app.listen(port, function () {
   console.log(' App Server is running on port ' + port + '!');
