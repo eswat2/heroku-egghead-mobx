@@ -7,11 +7,11 @@ function isAuthorized(req) {
   return true;
 }
 
-var xport = (process.env.PORT + 1 || 3000);
-var port  = (process.env.PORT || 8080);
+var port = (JSON.parse(process.env.PORT) || 8080);
+var glob = (port + 100 || 3000);
 
 console.log('-- port:  ' + port);
-console.log('-- prox:  ' + xport);
+console.log('-- glob:  ' + glob);
 
 server.use(middlewares)
 server.use(function (req, res, next) {
@@ -22,8 +22,8 @@ server.use(function (req, res, next) {
  }
 })
 server.use(router)
-server.listen(xport, function () {
-  console.log('JSON Server is running on port ' + xport + '!');
+server.listen(glob, function () {
+  console.log('JSON Server is running on port ' + glob + '!');
 });
 
 var express = require('express');
@@ -42,7 +42,7 @@ app.use(express.static('public'));
 // passes all api requests through the proxy
 app.all('/notes*', function (req, res, next) {
   prox.web(req, res, {
-    target: 'http://localhost:' + xport
+    target: 'http://localhost:' + glob
   });
 });
 
