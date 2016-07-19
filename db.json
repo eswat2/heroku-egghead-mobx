@@ -1,0 +1,45 @@
+{
+  "notes": [
+    {
+      "id": "eswat2",
+      "values": [
+        "another one",
+        "testing",
+        "one more",
+        "one more, longer this time 42",
+        "try it again",
+        "foobar",
+        "ping",
+        "pong",
+        "foobar 42"
+      ]
+    },
+    {
+      "id": "npm",
+      "values": [
+        "awesome",
+        "cool",
+        "superman"
+      ]
+    },
+    {
+      "id": "hulk",
+      "values": [
+        "smash",
+        "avenger"
+      ]
+    },
+    {
+      "id": "joe",
+      "values": [
+        "testing"
+      ]
+    },
+    {
+      "id": "who",
+      "values": [
+        "one for testing"
+      ]
+    }
+  ]
+}
