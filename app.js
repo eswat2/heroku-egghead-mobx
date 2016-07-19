@@ -7,8 +7,8 @@ function isAuthorized(req) {
   return true;
 }
 
-var port = (JSON.parse(process.env.PORT) || 8080);
-var glob = (port + 100 || 3000);
+var port = process.env.PORT ? JSON.parse(process.env.PORT) : 8080;
+var glob = process.env.PORT ? port + 100 : 3000;
 
 console.log('-- port:  ' + port);
 console.log('-- glob:  ' + glob);
@@ -35,7 +35,10 @@ var app  = express();
 
 // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
 // a load balancer (e.g. Heroku). See further comments below
-// app.use(enforce.HTTPS({ trustProtoHeader: true }));
+if (process.env.PORT) {
+  console.log('-- enforceSSL');
+  app.use(enforce.HTTPS({ trustProtoHeader: true }));
+}
 
 app.use(express.static('public'));
 
