@@ -7,7 +7,7 @@ function isAuthorized(req) {
   return true;
 }
 
-var apiport = (process.env.PORT + 100 || 3000);
+var apiport = (process.env.PORT + 1 || 3000);
 
 server.use(middlewares)
 server.use(function (req, res, next) {
@@ -19,7 +19,7 @@ server.use(function (req, res, next) {
 })
 server.use(router)
 server.listen(apiport, function () {
-  console.log('JSON Server is running on port 3000!');
+  console.log('JSON Server is running on port ' + apiport + '!');
 });
 
 var express = require('express');
