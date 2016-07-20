@@ -1,6 +1,6 @@
 # heroku-egghead-mobx
 [![Dependency Status](https://dependencyci.com/github/eswat2/heroku-egghead-mobx/badge)](https://dependencyci.com/github/eswat2/heroku-egghead-mobx)
-[![Heroku](https://heroku-badge.herokuapp.com/?app=egghead-mobx)](https://egghead-mobx.herokuapp.com)
+[![Heroku](https://heroku-badge.herokuapp.com/?app=egghead-mobx&style=flat&svg=1)](https://egghead-mobx.herokuapp.com)
 
 deployed version of the Github Note Taker app:
 
