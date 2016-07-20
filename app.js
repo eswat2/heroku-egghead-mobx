@@ -50,7 +50,7 @@ app.all('/notes*', function (req, res, next) {
 });
 
 app.use(express.static(root));
-app.use(fallback(root + '/index.html'));
+app.use(fallback('index.html', { root: root }));
 
 app.listen(port, function () {
   console.log(' App Server is running on port ' + port + '!');
