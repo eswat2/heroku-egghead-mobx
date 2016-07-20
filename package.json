@@ -1,7 +1,7 @@
 {
   "name": "heroku-mobx",
   "version": "1.0.0",
-  "description": "",
+  "description": "a node deployment of the Github Note Taker app built on React & Mobx",
   "engines": {
     "node": "6.3.0",
     "npm": "3.10.5"
@@ -29,7 +29,8 @@
     "express",
     "react",
     "axios",
-    "mobx"
+    "mobx",
+    "webpack"
   ],
   "license": "MIT"
 }
