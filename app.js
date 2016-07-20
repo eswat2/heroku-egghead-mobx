@@ -26,12 +26,14 @@ server.listen(glob, function () {
   console.log('JSON Server is running on port ' + glob + '!');
 });
 
-var express = require('express');
-var enforce = require('express-sslify');
-var htproxy = require('http-proxy');
+var fallback = require('express-history-api-fallback');
+var express  = require('express');
+var enforce  = require('express-sslify');
+var htproxy  = require('http-proxy');
 
 var prox = htproxy.createProxyServer();
 var app  = express();
+var root = __dirname + '/public'
 
 // Use enforce.HTTPS({ trustProtoHeader: true }) in case you are behind
 // a load balancer (e.g. Heroku). See further comments below
@@ -40,14 +42,15 @@ if (process.env.PORT) {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
 }
 
-app.use(express.static('public'));
-
 // passes all api requests through the proxy
 app.all('/notes*', function (req, res, next) {
   prox.web(req, res, {
     target: 'http://localhost:' + glob
   });
 });
+
+app.use(express.static(root));
+app.use(fallback(root + '/index.html'));
 
 app.listen(port, function () {
   console.log(' App Server is running on port ' + port + '!');
