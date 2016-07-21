@@ -2,7 +2,6 @@ var fallback = require('express-history-api-fallback');
 var express  = require('express');
 var enforce  = require('express-sslify');
 var htproxy  = require('http-proxy');
-var os       = require("os");
 
 var bodyParser = require('body-parser');
 
@@ -10,6 +9,8 @@ var notes = require('./notes_db');
 var port  = process.env.PORT ? JSON.parse(process.env.PORT) : 8080;
 
 console.log('-- port:  ' + port);
+
+notes.connect(process.env.MONGODB_URI);
 
 var prox = htproxy.createProxyServer();
 var app  = express();
@@ -35,5 +36,4 @@ app.use(fallback('index.html', { root: root }));
 
 app.listen(port, function () {
   console.log(' App Server is running on port ' + port + '!');
-  notes.connect(process.env.MONGOLAB_URI);
 });
