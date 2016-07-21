@@ -2,6 +2,7 @@ var fallback = require('express-history-api-fallback');
 var express  = require('express');
 var enforce  = require('express-sslify');
 var htproxy  = require('http-proxy');
+var os       = require("os");
 
 var bodyParser = require('body-parser');
 
