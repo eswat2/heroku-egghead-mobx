@@ -44,55 +44,60 @@ function connect(MONGOLAB_URI) {
   });
 }
 
-function process(req, res, next) {
-  var url    = req.url;
-  var method = req.method;
-  var user   = url.substr(7);
-
-  if (method == 'GET') {
-    // console.log('-- user:  ' + user);
-    getNote(user, function(err, object){
-      if (!err) {
-        if (object) {
-          res.json(object);
-        }
-        else {
-          res.json({ values: [] });
-        }
+function getHandler(req, res, next) {
+  var user   = req.params.username;
+  // console.log('-- user:  ' + user);
+  getNote(user, function(err, object){
+    if (!err) {
+      if (object) {
+        res.json(object);
       }
       else {
-        res.status(500).send('Something broke!');
+        res.json({ values: [] });
       }
-    })
-  }
-  else {
-    if (method == 'POST') {
-      // console.log(req.body);
-      var user   = req.body.id;
-      var values = req.body.values;
-      postNote(user, values, function(err, object) {
-        if (!err) {
-          if (object) {
-            res.json(object);
-          }
-          else {
-            res.json({ values: [] });
-          }
-        }
-        else {
-          res.status(500).send('Something broke!');
-        }
-      })
     }
     else {
-      res.status(404).send('Invalid Request');
+      res.status(500).send('Something broke!');
     }
-  }
+  })
+}
+
+function keysHandler(req, res, next) {
+  Note.find({}, function(err, list) {
+    if (!err) {
+      var keys = list.map(function(item) { return item.user; }).sort();
+      res.json(keys);
+    }
+    else {
+      res.status(500).send('Something broke!');
+    }
+  })
+}
+
+function postHandler(req, res, next) {
+  // console.log(req.body);
+  var user   = req.body.id;
+  var values = req.body.values;
+  postNote(user, values, function(err, object) {
+    if (!err) {
+      if (object) {
+        res.json(object);
+      }
+      else {
+        res.json({ values: [] });
+      }
+    }
+    else {
+      res.status(500).send('Something broke!');
+    }
+  })
 }
 
 var api = {
   connect: connect,
-  process: process
+  get: getHandler,
+  keys: keysHandler,
+  post: postHandler
 }
 
 module.exports = api;

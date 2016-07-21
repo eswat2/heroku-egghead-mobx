@@ -13,11 +13,10 @@
   },
   "author": "Richard Hess eswat2@gmail.com (https://about.me/richardhess)",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "express-history-api-fallback": "^2.0.0",
     "express-sslify": "^1.1.0",
-    "http-proxy": "^1.14.0",
-    "json-server": "^0.8.16",
     "mongoose": "^4.5.5"
   },
   "repository": {

@@ -1,8 +1,6 @@
-var fallback = require('express-history-api-fallback');
-var express  = require('express');
-var enforce  = require('express-sslify');
-var htproxy  = require('http-proxy');
-
+var express    = require('express');
+var enforce    = require('express-sslify');
+var fallback   = require('express-history-api-fallback');
 var bodyParser = require('body-parser');
 
 var notes = require('./notes_db');
@@ -12,7 +10,6 @@ console.log('-- port:  ' + port);
 
 notes.connect(process.env.MONGODB_URI);
 
-var prox = htproxy.createProxyServer();
 var app  = express();
 var root = __dirname + '/public';
 
@@ -26,10 +23,22 @@ if (process.env.PORT) {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
 }
 
-// passes all api requests through the proxy
-app.all('/notes*', function (req, res, next) {
-  notes.process(req, res, next);
+app.get('/notes/:username', function (req, res, next) {
+  notes.get(req, res, next);
 });
+
+app.get('/notes', function (req, res, next) {
+  notes.keys(req, res, next);
+});
+
+app.post('/notes', function (req, res, next) {
+  notes.post(req, res, next);
+});
+
+// NOTE:  this traps all of the bogus notes api calls...
+app.all('/notes*', function (req, res, next) {
+  res.status(404).send('Invalid Request!');
+})
 
 app.use(express.static(root));
 app.use(fallback('index.html', { root: root }));
