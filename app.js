@@ -6,7 +6,7 @@ var htproxy  = require('http-proxy');
 var bodyParser = require('body-parser');
 
 var notes = require('./notes_db');
-var port = process.env.PORT ? JSON.parse(process.env.PORT) : 8080;
+var port  = process.env.PORT ? JSON.parse(process.env.PORT) : 8080;
 
 notes.connect(process.env.MONGOLAB_URI);
 
