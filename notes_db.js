@@ -45,7 +45,7 @@ function connect(MONGOLAB_URI) {
 }
 
 function getHandler(req, res, next) {
-  var user   = req.params.username;
+  var user   = req.params.username.toLowerCase();
   // console.log('-- user:  ' + user);
   getNote(user, function(err, object){
     if (!err) {
@@ -76,7 +76,7 @@ function keysHandler(req, res, next) {
 
 function postHandler(req, res, next) {
   // console.log(req.body);
-  var user   = req.body.id;
+  var user   = req.body.id.toLowerCase();
   var values = req.body.values;
   postNote(user, values, function(err, object) {
     if (!err) {
